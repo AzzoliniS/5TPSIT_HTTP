@@ -1,26 +1,24 @@
 const express = require('express')
-//permette di utilizzare tutte le funzionalità di express
 const app = express()
+const {prodotti} = require("./prodotti")
 
-//gestisco la homepage
-app.get('/', (req, res) => {
-    res.send('Home')
-  })
 
-//gestisco la pagina about
-app.get('/about', (req, res) => {
-    res.send('About')
-  })
-
-//gestisco la pagina contatti
-app.get('/contatti', (req, res) => {
-    res.send('Contatti')
-  })
-
-//gestisco url di errore
-app.all('*', (req, res) =>{
-    res.send("<h1>Risorsa non trovata</h1>")
+app.get('/api/prodotti', (req, res) => {
+  res.status(200).json({data: prodotti})
 })
 
-//in ascolto sulla porta 3000
+app.get('/api/prodotti/:id', (req, res)=>{
+  const {id} = req.params
+
+  const prodotto = prodotti.find(
+    (prodotto)=> prodotto.id === id
+  ) 
+  res.json(prodotto)
+})
+
+//aggiungo in coda una nuova persona
+app.post('/api/persone', (req, res)=>{
+  console.log(req.body)
+})
+
 app.listen(3000)
